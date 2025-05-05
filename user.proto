@@ -42,9 +42,10 @@ message LogoutResponse {
 }
 
 message AddProfilePictureRequest {
-  string user_id = 1;
-  string picture_url = 2;
-}
+    string user_id = 1;
+    bytes picture = 2;
+    string file_name = 3;
+}  
 
 message AddProfilePictureResponse {
   string message = 1;
@@ -68,6 +69,16 @@ message UpdateUserResponse {
   User user = 1;
 }
 
+message GetUserByIdRequest {
+    string user_id = 1;
+}
+
+message GetUserByIdResponse {
+    string user_id = 1;
+    string full_name = 2;
+    string username = 3;
+    repeated string profile_pics = 4;
+}
 
 service UserService {
   rpc SignUp(SignUpRequest) returns (SignUpResponse);
@@ -78,4 +89,6 @@ service UserService {
   rpc RemoveProfilePicture(RemoveProfilePictureRequest) returns (RemoveProfilePictureResponse);
 
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
+
+  rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse);
 }
