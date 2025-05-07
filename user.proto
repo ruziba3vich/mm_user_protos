@@ -97,6 +97,16 @@ message GetUserByIdResponse {
   repeated string profile_pics = 4;
 }
 
+message GetUserDataRequest {
+  string user_id = 1;
+}
+
+message GetUserDataResponse {
+  string full_name = 1;
+  string username = 2;
+  string profile_pic_url = 3;
+}
+
 service UserService {
   rpc SignUp(SignUpRequest) returns (SignUpResponse);
   rpc Login(LoginRequest) returns (LoginResponse);
@@ -106,4 +116,5 @@ service UserService {
   rpc RemoveProfilePicture(RemoveProfilePictureRequest) returns (RemoveProfilePictureResponse);
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
   rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse);
+  rpc GetUserData(GetUserDataRequest) returns (GetUserDataResponse);
 }
