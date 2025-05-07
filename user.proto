@@ -4,12 +4,14 @@ package user_protos;
 
 option go_package = "genprotos/user_protos";
 
+import "google/protobuf/timestamp.proto";
+
 message User {
   string id = 1;
   string full_name = 2;
   string username = 3;
-  repeated string profile_pics = 4;
-  string created_at = 5;
+  google.protobuf.Timestamp created_at = 4;
+  string profile_pic_url = 5;
 }
 
 message SignUpRequest {
@@ -32,7 +34,6 @@ message LoginResponse {
   User user = 1;
   string access_token = 2;
   string refresh_token = 3;
-  string device_id = 4;
 }
 
 message LogoutRequest {
@@ -54,7 +55,6 @@ message RefreshTokenRequest {
 message RefreshTokenResponse {
   string access_token = 1;
   string refresh_token = 2;
-  string device_id = 3;
 }
 
 message AddProfilePictureRequest {
@@ -69,7 +69,6 @@ message AddProfilePictureResponse {
 
 message RemoveProfilePictureRequest {
   string user_id = 1;
-  int32 picture_ind = 2;
 }
 
 message RemoveProfilePictureResponse {
@@ -91,10 +90,7 @@ message GetUserByIdRequest {
 }
 
 message GetUserByIdResponse {
-  string user_id = 1;
-  string full_name = 2;
-  string username = 3;
-  repeated string profile_pics = 4;
+  User user = 1;
 }
 
 message GetUserDataRequest {
@@ -102,9 +98,45 @@ message GetUserDataRequest {
 }
 
 message GetUserDataResponse {
-  string full_name = 1;
-  string username = 2;
-  string profile_pic_url = 3;
+  string user_id = 1;
+  string full_name = 2;
+  string username = 3;
+  string profile_pic_url = 4;
+}
+
+message FollowUserRequest {
+  string follower_id = 1;
+  string follow_to_id = 2;
+}
+
+message FollowUserResponse {
+  bool success = 1;
+}
+
+message UnfollowRequest {
+  string unfollower_id = 1;
+  string unfollow_from_id = 2;
+}
+
+message UnfollowResponse {
+  bool success = 1;
+}
+
+message GetFollowersRequest {
+  string user_id = 1;
+  int32 page = 2;
+  int32 limit = 3;
+}
+
+message PaginationResponse {
+  repeated User users = 1;
+  int32 total_count = 2;
+  int32 page = 3;
+  int32 limit = 4;
+}
+
+message GetFollowersResponse {
+  PaginationResponse pagination = 1;
 }
 
 service UserService {
@@ -117,4 +149,7 @@ service UserService {
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
   rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse);
   rpc GetUserData(GetUserDataRequest) returns (GetUserDataResponse);
+  rpc FollowUser(FollowUserRequest) returns (FollowUserResponse);
+  rpc Unfollow(UnfollowRequest) returns (UnfollowResponse);
+  rpc GetFollowers(GetFollowersRequest) returns (GetFollowersResponse);
 }
