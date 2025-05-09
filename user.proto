@@ -69,6 +69,7 @@ message AddProfilePictureResponse {
 
 message RemoveProfilePictureRequest {
   string user_id = 1;
+  string file_name = 2;
 }
 
 message RemoveProfilePictureResponse {
