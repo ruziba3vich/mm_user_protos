@@ -147,6 +147,7 @@ message Notification {
   string from_user_id = 3;
   string article_id = 4;
   google.protobuf.Timestamp created_at = 5;
+  string receiver_id = 6;
 }
 
 message NotificationRequest {
