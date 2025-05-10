@@ -141,6 +141,19 @@ message GetFollowersResponse {
   PaginationResponse pagination = 1;
 }
 
+message Notification {
+  string type = 1; // "like", "new_post"
+  string message = 2;
+  string from_user_id = 3;
+  string article_id = 4;
+  google.protobuf.Timestamp created_at = 5;
+}
+
+message NotificationRequest {
+  string user_id = 1;
+}
+
+
 service UserService {
   rpc SignUp(SignUpRequest) returns (SignUpResponse);
   rpc Login(LoginRequest) returns (LoginResponse);
@@ -154,4 +167,5 @@ service UserService {
   rpc FollowUser(FollowUserRequest) returns (FollowUserResponse);
   rpc Unfollow(UnfollowRequest) returns (UnfollowResponse);
   rpc GetFollowers(GetFollowersRequest) returns (GetFollowersResponse);
+  rpc StreamNotifications(NotificationRequest) returns (stream Notification);
 }
